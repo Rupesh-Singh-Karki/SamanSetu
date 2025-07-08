@@ -1,0 +1,24 @@
+services:
+  backendss:
+    build:
+      context: ./backendSS
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      # These variables will be loaded from your .env file.
+      # The DATABASE_URL should point to your remote Render database.
+      DATABASE_URL: ${DATABASE_URL}
+      SECRET_KEY: ${SECRET_KEY}
+      MAIL_USERNAME: ${MAIL_USERNAME}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+      MAIL_FROM: ${MAIL_FROM}
+      MAIL_PORT: ${MAIL_PORT}
+      MAIL_SERVER: ${MAIL_SERVER}
+      MAIL_FROM_NAME: ${MAIL_FROM_NAME}
+      FRONTEND_URL: ${FRONTEND_URL}
+      FRONTEND_URL_TWO: ${FRONTEND_URL_TWO}
+    volumes:
+      # This still mounts your local code into the container for live-reloading.
+      - ./backendSS:/app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
