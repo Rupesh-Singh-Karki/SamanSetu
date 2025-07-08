@@ -7,6 +7,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '../ui/card'
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
 import { Label } from '../ui/label'
+import { Link } from 'react-router-dom'
 
 const Signup = () => {
   const [userType, setUserType] = React.useState<'owner' | 'buyer'>('owner')
@@ -23,45 +24,54 @@ const Signup = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle className="text-2xl text-center">Sign Up</CardTitle>
+    <div className="min-h-screen flex items-center justify-center bg-background px-4 safe-area-top safe-area-bottom">
+      <Card className="w-full max-w-[400px] p-1 md:p-6">
+        <CardHeader className="pb-3 md:pb-6">
+          <CardTitle className="text-xl md:text-2xl text-center">
+            Sign Up
+          </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
+        
+        <CardContent className="space-y-4 md:space-y-6">
           <div className="flex gap-2">
             <Button
               variant={userType === 'owner' ? 'default' : 'outline'}
               onClick={() => setUserType('owner')}
-              className="flex-1"
+              className="flex-1 py-3 text-sm md:text-base"
             >
               Owner
             </Button>
             <Button
               variant={userType === 'buyer' ? 'default' : 'outline'}
               onClick={() => setUserType('buyer')}
-              className="flex-1"
+              className="flex-1 py-3 text-sm md:text-base"
             >
               Buyer
             </Button>
           </div>
           
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 md:space-y-6">
             <div>
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" className="text-sm md:text-base">
+                Email
+              </Label>
               <Input
                 id="email"
                 type="email"
                 {...register('email', { required: 'Email is required' })}
-                className="mt-1"
+                className="mt-1 py-3 text-sm md:text-base"
               />
               {errors.email && (
-                <p className="text-sm text-destructive mt-1">{errors.email.message as string}</p>
+                <p className="text-xs text-destructive mt-1">
+                  {errors.email.message as string}
+                </p>
               )}
             </div>
             
             <div>
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password" className="text-sm md:text-base">
+                Password
+              </Label>
               <Input
                 id="password"
                 type="password"
@@ -69,23 +79,29 @@ const Signup = () => {
                   required: 'Password is required',
                   minLength: { value: 6, message: 'Password must be at least 6 characters' }
                 })}
-                className="mt-1"
+                className="mt-1 py-3 text-sm md:text-base"
               />
               {errors.password && (
-                <p className="text-sm text-destructive mt-1">{errors.password.message as string}</p>
+                <p className="text-xs text-destructive mt-1">
+                  {errors.password.message as string}
+                </p>
               )}
             </div>
             
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button 
+              type="submit" 
+              className="w-full py-4 text-sm md:text-base" 
+              disabled={loading}
+            >
               {loading ? 'Creating Account...' : 'Sign Up'}
             </Button>
           </form>
           
-          <div className="text-center">
-            <span className="text-sm text-muted-foreground">
+          <div className="text-center pt-2">
+            <span className="text-xs md:text-sm text-muted-foreground">
               Already have an account?{' '}
-              <Button variant="link" className="p-0" onClick={() => window.location.href = '/login'}>
-                Log in
+              <Button variant="link" className="p-0 text-xs md:text-sm" asChild>
+                <Link to="/login">Log in</Link>
               </Button>
             </span>
           </div>

@@ -38,65 +38,80 @@ const Login = () => {
   }, [user, navigate])
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle className="text-2xl text-center">Login</CardTitle>
+    <div className="min-h-screen flex items-center justify-center bg-background px-4 safe-area-top safe-area-bottom">
+      <Card className="w-full max-w-[400px] p-1 md:p-6">
+        <CardHeader className="pb-3 md:pb-6">
+          <CardTitle className="text-xl md:text-2xl text-center">
+            Login
+          </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
+        
+        <CardContent className="space-y-4 md:space-y-6">
           <div className="flex gap-2">
             <Button
               variant={userType === 'owner' ? 'default' : 'outline'}
               onClick={() => setUserType('owner')}
-              className="flex-1"
+              className="flex-1 py-3 text-sm md:text-base"
             >
               Owner
             </Button>
             <Button
               variant={userType === 'buyer' ? 'default' : 'outline'}
               onClick={() => setUserType('buyer')}
-              className="flex-1"
+              className="flex-1 py-3 text-sm md:text-base"
             >
               Buyer
             </Button>
           </div>
           
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 md:space-y-6">
             <div>
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" className="text-sm md:text-base">
+                Email
+              </Label>
               <Input
                 id="email"
                 type="email"
                 {...register('email', { required: 'Email is required' })}
-                className="mt-1"
+                className="mt-1 py-3 text-sm md:text-base"
               />
               {errors.email && (
-                <p className="text-sm text-destructive mt-1">{errors.email.message as string}</p>
+                <p className="text-xs text-destructive mt-1">
+                  {errors.email.message as string}
+                </p>
               )}
             </div>
             
             <div>
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password" className="text-sm md:text-base">
+                Password
+              </Label>
               <Input
                 id="password"
                 type="password"
                 {...register('password', { required: 'Password is required' })}
-                className="mt-1"
+                className="mt-1 py-3 text-sm md:text-base"
               />
               {errors.password && (
-                <p className="text-sm text-destructive mt-1">{errors.password.message as string}</p>
+                <p className="text-xs text-destructive mt-1">
+                  {errors.password.message as string}
+                </p>
               )}
             </div>
             
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button 
+              type="submit" 
+              className="w-full py-4 text-sm md:text-base" 
+              disabled={loading}
+            >
               {loading ? 'Logging in...' : 'Login'}
             </Button>
           </form>
           
-          <div className="text-center">
-            <span className="text-sm text-muted-foreground">
+          <div className="text-center pt-2">
+            <span className="text-xs md:text-sm text-muted-foreground">
               Don't have an account?{' '}
-              <Button variant="link" className="p-0" asChild>
+              <Button variant="link" className="p-0 text-xs md:text-sm" asChild>
                 <Link to="/signup">Sign up</Link>
               </Button>
             </span>

@@ -11,9 +11,12 @@ from app.schemas import *
 from app.auth import get_current_user, create_access_token, verify_password, get_password_hash
 from app.email_service import send_inquiry_email
 from app import crud
+from dotenv import load_dotenv
+import os
 
 # Create tables
 Base.metadata.create_all(bind=engine)
+load_dotenv()
 
 app = FastAPI(
     title="SamanSetu API",
@@ -21,10 +24,11 @@ app = FastAPI(
     version="1.0.0"
 )
 
+
 # CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://frontend:3000", "http://localhost:5173"],
+    allow_origins=["http://localhost:3000", "http://frontend:3000", "http://localhost:5173", os.getenv("FRONTEND_URL")],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
