@@ -8,20 +8,30 @@ import { Button } from '../ui/button'
 import { Input } from '../ui/input'
 import { Label } from '../ui/label'
 import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const Signup = () => {
   const [userType, setUserType] = React.useState<'owner' | 'buyer'>('owner')
   const { register, handleSubmit, formState: { errors } } = useForm()
-  const { loading } = useSelector((state: RootState) => state.auth)
+  const { loading, user } = useSelector((state: RootState) => state.auth)
   const dispatch = useDispatch<AppDispatch>()
+  const navigate = useNavigate()
 
   const onSubmit = (data: any) => {
     if (userType === 'owner') {
       dispatch(signupOwner(data))
+      .then(() => navigate('/', { state: { showWelcome: true } })) // Redirect after signup
     } else {
       dispatch(signupBuyer(data))
+      .then(() => navigate('/', { state: { showWelcome: true } })) // Redirect after signup
     }
   }
+
+   React.useEffect(() => {
+    if (user) {
+      navigate('/');
+    }
+  }, [user, navigate])
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4 safe-area-top safe-area-bottom">

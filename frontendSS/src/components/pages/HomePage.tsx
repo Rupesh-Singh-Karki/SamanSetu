@@ -1,9 +1,10 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { Button } from '../ui/button'
 import { Warehouse, ShoppingCart, BarChart, Users, Mail, CheckCircle } from 'lucide-react'
 import { useTheme } from '../context/ThemeContext'
 import { useSelector } from 'react-redux'
 import type { RootState } from '../../store/store'
+import { useEffect, useState } from 'react'
 
 const FeatureCard = ({ icon, title, description }: any) => (
   <div className="bg-card p-6 rounded-xl border hover:border-primary transition-all">
@@ -18,9 +19,31 @@ const FeatureCard = ({ icon, title, description }: any) => (
 function HomePage() {
   const { theme } = useTheme()
   const { user } = useSelector((state: RootState) => state.auth)
+  const location = useLocation() // Add location hook
+  const [showWelcome, setShowWelcome] = useState(false) // Add state for welcome message
+
+   // Show welcome message if redirected from signup/login
+  useEffect(() => {
+    if (location.state?.showWelcome) {
+      setShowWelcome(true);
+      // Clear state to prevent showing again on refresh
+      const state = { ...location.state };
+      delete state.showWelcome;
+      window.history.replaceState(state, '', location.pathname);
+      
+      // Auto-hide after 3 seconds
+      const timer = setTimeout(() => setShowWelcome(false), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [location.state]);
 
   return (
     <div className="min-h-screen">
+      {showWelcome && (
+        <div className="fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-md shadow-lg z-50 animate-fade-in">
+          Welcome to SamanSetu! 🎉 <br /> Please login if you just signed up 
+        </div>
+      )}
       {/* Hero Section */}
       <section className={`py-20 px-4 ${theme === 'dark' ? 'bg-gradient-to-b from-primary/10 to-background' : 'bg-gradient-to-b from-primary/5 to-background'}`}>
         <div className="container mx-auto max-w-6xl">

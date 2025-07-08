@@ -24,7 +24,7 @@ const Login = () => {
       } else {
         await dispatch(loginBuyer(data))
       }
-      navigate('/')
+      navigate('/', { state: { showWelcome: true } })
     } catch (error) {
       console.error('Login failed:', error)
     }
