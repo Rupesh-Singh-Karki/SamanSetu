@@ -64,7 +64,7 @@ const inquirySlice = createSlice({
         state.loading = true
         state.error = null
       })
-      .addCase(createInquiry.fulfilled, (state, action) => {
+      .addCase(createInquiry.fulfilled, (state) => {
         state.loading = false
         toast.success('Inquiry sent successfully!')
       })
